@@ -1,19 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import Message from './App';
-import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Switch, Router, Link } from "react-router-dom";
+import { AppBar, Toolbar, Button } from "@material-ui/core";
 
-const myName = 'Danil'
+import { Home } from "./Routes/Home";
+import { Chats } from "./Routes/Chats";
+import { Profile } from "./Routes/Profile";
 
-ReactDOM.render(
-	<React.StrictMode>
-		<Message name={myName} />
-	</React.StrictMode>,
-	document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export const App = () => {
+	return (
+		<div>
+			<BrowserRouter>
+				<AppBar position="static">
+					<Toolbar>
+						<Button to="/" component={Link} color="inherit">Home</Button>
+						<Button to="/profile" component={Link} color="inherit"> Profile </Button>
+						<Button to="/chats" component={Link} color="inherit"> Chats </Button>
+					</Toolbar>
+				</AppBar>
+				<Switch>
+					<Router component={Chats} path="/chats" />
+					<Router component={Profile} path="/profile" />
+					<Router component={Home} path="/" />
+				</Switch>
+			</BrowserRouter>
+		</div>
+	);
+};
