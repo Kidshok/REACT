@@ -1,19 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import Message from './App';
-import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { AppBar, Toolbar, Button } from "@material-ui/core";
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
 
-const myName = 'Danil'
+import { Home } from "./Routes/Home";
+import { Chats } from "./Routes/Chats";
+import { Profile } from "./Routes/Profile";
+import { store, persistor } from "./store";
 
-ReactDOM.render(
-	<React.StrictMode>
-		<Message name={myName} />
-	</React.StrictMode>,
-	document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export const App = () => {
+	return (
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<BrowserRouter>
+					<AppBar position="static">
+						<Toolbar>
+							<Button to="/" component={Link} color="inherit">
+								Home
+							</Button>
+							<Buttom to="/profile" component={Link} color="inherit">
+								Profile
+							</Buttom>
+							<Buttom to="/chats" component={Link} color="inherit">
+								Chats
+							</Buttom>
+						</Toolbar>
+					</AppBar>
+					<Switch>
+						<Route component={Chats} path="/chats" />
+						<Route component={Profile} path="/profile" />
+						<Route component={Home} path="/" />
+					</Switch>
+				</BrowserRouter>
+			</PersistGate>
+		</Provider>
+	);
+};
